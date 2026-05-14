@@ -1,0 +1,367 @@
+/* ===========================
+   Reset & Base
+   =========================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ===========================
+   Design Tokens
+   =========================== */
+:root {
+  --red-400: #f87171;
+  --red-500: #ef4444;
+  --red-600: #dc2626;
+  --red-700: #b91c1c;
+  --red-900: #7f1d1d;
+
+  --bg-base:    #0a0a0f;
+  --bg-card:    #13131a;
+  --bg-surface: #1a1a24;
+
+  --text-primary:   #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.55);
+  --text-muted:     rgba(255, 255, 255, 0.25);
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --radius-xl: 32px;
+
+  --shadow-red-sm: 0 4px 20px rgba(239, 68, 68, 0.35);
+  --shadow-red-lg: 0 10px 50px rgba(239, 68, 68, 0.55);
+
+  --transition-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --transition-ease:   cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ===========================
+   Body & Background
+   =========================== */
+body {
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-base);
+  overflow: hidden;
+}
+
+/* Partículas / brilhos de fundo */
+.bg-glow {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.bg-glow::before {
+  content: '';
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 700px;
+  height: 400px;
+  background: radial-gradient(ellipse, rgba(220, 38, 38, 0.12) 0%, transparent 70%);
+  animation: pulse-glow 4s ease-in-out infinite alternate;
+}
+
+.bg-glow::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(239, 68, 68, 0.2), transparent);
+}
+
+@keyframes pulse-glow {
+  from { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
+  to   { opacity: 1;   transform: translate(-50%, -50%) scale(1.1); }
+}
+
+/* ===========================
+   Card Container
+   =========================== */
+.card {
+  position: relative;
+  z-index: 1;
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius-xl);
+  padding: 56px 64px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  max-width: 460px;
+  width: 90vw;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.03),
+    0 30px 80px rgba(0,0,0,0.5);
+
+  /* Glassmorphism suave */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  animation: card-in 0.6s var(--transition-spring) both;
+}
+
+@keyframes card-in {
+  from { opacity: 0; transform: translateY(30px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0)    scale(1); }
+}
+
+/* Borda superior com gradiente */
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 20%; right: 20%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(239, 68, 68, 0.5), transparent);
+  border-radius: 100%;
+}
+
+/* ===========================
+   Badge / Tag
+   =========================== */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px;
+  border-radius: 100px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--red-400);
+}
+
+.badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--red-500);
+  animation: dot-blink 1.5s ease-in-out infinite;
+}
+
+@keyframes dot-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.3; }
+}
+
+/* ===========================
+   Heading Area
+   =========================== */
+.card-heading {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.card-title {
+  font-size: 1.65rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.card-title span {
+  background: linear-gradient(135deg, var(--red-400), var(--red-600));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.card-subtitle {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+/* ===========================
+   Divider
+   =========================== */
+.divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+}
+
+/* ===========================
+   Button — Principal
+   =========================== */
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 17px 48px;
+  width: 100%;
+
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #fff;
+
+  background: linear-gradient(135deg, var(--red-500) 0%, var(--red-700) 100%);
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  outline: none;
+  overflow: hidden;
+
+  transition:
+    transform 0.25s var(--transition-spring),
+    box-shadow 0.25s var(--transition-ease);
+
+  box-shadow: var(--shadow-red-sm);
+}
+
+/* Shimmer interno */
+.btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.18) 0%, transparent 55%);
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+/* Linha inferior de brilho */
+.btn::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 10%; right: 10%;
+  height: 1px;
+  background: rgba(255,255,255,0.25);
+  border-radius: 100%;
+}
+
+.btn:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: var(--shadow-red-lg);
+}
+
+.btn:active {
+  transform: translateY(1px) scale(0.98);
+  box-shadow: 0 2px 12px rgba(239, 68, 68, 0.3);
+}
+
+.btn:focus-visible {
+  box-shadow:
+    0 0 0 3px var(--bg-base),
+    0 0 0 5px var(--red-500),
+    var(--shadow-red-sm);
+}
+
+.btn-icon {
+  display: flex;
+  align-items: center;
+  transition: transform 0.25s var(--transition-spring);
+}
+
+.btn:hover .btn-icon {
+  transform: translateX(4px);
+}
+
+/* Ripple */
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(0);
+  animation: ripple-anim 0.6s linear;
+  pointer-events: none;
+}
+
+@keyframes ripple-anim {
+  to { transform: scale(5); opacity: 0; }
+}
+
+/* ===========================
+   Button — Secundário (Ghost)
+   =========================== */
+.btn-ghost {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 14px 32px;
+
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: var(--text-secondary);
+
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  outline: none;
+  overflow: hidden;
+
+  transition:
+    color 0.2s var(--transition-ease),
+    border-color 0.2s var(--transition-ease),
+    background 0.2s var(--transition-ease),
+    transform 0.2s var(--transition-spring);
+}
+
+.btn-ghost:hover {
+  color: var(--text-primary);
+  border-color: rgba(239, 68, 68, 0.35);
+  background: rgba(239, 68, 68, 0.06);
+  transform: translateY(-2px);
+}
+
+.btn-ghost:active {
+  transform: translateY(0);
+}
+
+/* ===========================
+   Button Group
+   =========================== */
+.btn-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+/* ===========================
+   Footer info
+   =========================== */
+.card-footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.76rem;
+  color: var(--text-muted);
+  letter-spacing: 0.03em;
+}
+
+.card-footer-dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--text-muted);
+}
